@@ -20,6 +20,21 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 			   });
 		}
 
+		const deleteBook = (id:number) => {
+			
+			console.log(id);
+			// delete book
+			fetch(`http://127.0.0.1:8000/books/${id}`, {
+				method: 'DELETE',
+				
+			})
+			.then((response) => fetchBooks())
+			.catch((err) => {
+				console.log(err.message);
+			});
+			
+		}
+
 
 		useEffect(() => {
 			fetchBooks();
@@ -29,9 +44,10 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 		<>
 			<h1>Books List</h1>
 			<ul>
-				{books.map(book =><li key={book.id}>{book.title} Status {book.status}</li>)}
+				{books.map(book =><li key={book.id}>{book.title} Status {book.status} <button onClick={()=>{deleteBook(book.id)}}>Delete</button></li>)}
 			</ul>
 		</>
 	)
 }
 export default BookPage;
+
