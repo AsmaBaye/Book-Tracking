@@ -68,3 +68,20 @@ def create_book(book: NewBook, db: sqlite3.Connection = Depends(get_database_con
     book_id = cursor.lastrowid
     cursor.close()
     return Book(id=book_id, title=book.title, status=BookStatus.to_read)
+
+
+@app.delete("/books/{book_id}", response_model=str)
+def delete_book(book_id: int, db: sqlite3.Connection = Depends(get_database_connection)):
+    cursor = db.cursor()
+    cursor.execute("SELECT title FROM tasks WHERE id = ?", (book_id,))
+    book = cursor.fetchone()
+
+    if book is None:
+        cursor.close()
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    cursor.execute("DELETE FROM tasks WHERE id = ?", (book_id,))
+    db.commit()
+    cursor.close()
+
+    return f"Deleted book with id: {book_id}"
