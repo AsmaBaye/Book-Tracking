@@ -40,6 +40,11 @@ class Book:
     status: BookStatus = BookStatus.to_read
 
 
+@dataclass
+class NewBook:
+    title: str
+
+
 @app.get("/books", response_model=List[Book])
 def get_all_books(db: sqlite3.Connection = Depends(get_database_connection)):
     cursor = db.cursor()
@@ -52,3 +57,14 @@ def get_all_books(db: sqlite3.Connection = Depends(get_database_connection)):
                  for book in books]
 
     return book_list
+
+
+@app.post("/books", response_model=Book)
+def create_book(book: NewBook, db: sqlite3.Connection = Depends(get_database_connection)):
+    cursor = db.cursor()
+    cursor.execute("INSERT INTO tasks (title, status) VALUES (?, ?)",
+                   (book.title, BookStatus.to_read))
+    db.commit()
+    book_id = cursor.lastrowid
+    cursor.close()
+    return Book(id=book_id, title=book.title, status=BookStatus.to_read)
