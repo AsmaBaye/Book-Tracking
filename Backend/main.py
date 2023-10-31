@@ -127,9 +127,10 @@ def update_book(book_id: int, updated_book: BookUpdate, db: sqlite3.Connection =
     # Update the book's title and status
     cursor.execute("UPDATE tasks SET title = ?, status = ? WHERE id = ?",
                    (updated_book.title, updated_book.status, book_id))
+
     db.commit()
-
+    cursor.execute("SELECT * FROM tasks WHERE id = ?", (book_id,))
+    book = cursor.fetchone()
     cursor.close()
-    updated_book.id = book_id
 
-    return updated_book
+    return Book(id=book[0], title=book[1], status=book[2])
