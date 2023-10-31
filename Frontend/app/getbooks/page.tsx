@@ -66,7 +66,7 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 			console.log(data)
 		  })
 		.catch((err) => {
-			alert.$(err.message);
+			alert(err.message);
 		});
 	 }
 
