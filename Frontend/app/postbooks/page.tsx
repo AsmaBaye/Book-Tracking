@@ -1,7 +1,8 @@
 "use client"
 import { useState } from 'react';
 import { Book } from '../page';
- 
+import { Button } from "@/components/ui/button" 
+import { Input } from '@/components/ui/input';
 
 
 interface AddBookProps {
@@ -32,9 +33,9 @@ const AddBook = ({setBooks, books}:AddBookProps) =>{
 	   
 	   return(
 		   <div>
-		   <h1>Add Books</h1>
-		   <input type='text'   placeholder='Add Books' value={bookTitle} onChange={(e) => setBookTitle(e.target.value)} />
-		   <button onClick={(e)=>{addNewBook(bookTitle)}}>Add </button>
+		   <h1>Book Tracker App</h1>
+		   <Input type='text'   placeholder='Add Books' value={bookTitle} onChange={(e) => setBookTitle(e.target.value)} />
+		   <Button onClick={(e)=>{addNewBook(bookTitle)}}>Add </Button>
 		   </div>
 	   )
    }
