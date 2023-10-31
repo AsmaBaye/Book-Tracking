@@ -20,7 +20,6 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 			fetch("http://127.0.0.1:8000/books")
 				.then((response) => response.json())
 			   .then((data) => {
-				console.log(data)
 				  setBooks(data);
 			   })
 			   .catch((err) => {
@@ -38,14 +37,13 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 			})
 			.then((response) => fetchBooks())
 			.catch((err) => {
-				console.log(err.message);
+				alert(err.message);
 			});
 			
 		}
 
 	 const updateBook = (updatedBook: BookUpdate) => {
 		//update book status
-		console.log(updatedBook.id);
 		let updates = {}
 		if (updatedBook.status != null)
 			updates = {...updates, status: updatedBook.status}
@@ -63,7 +61,6 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 		})
 		.then((data) => {
 			fetchBooks();
-			console.log(data)
 		  })
 		.catch((err) => {
 			alert(err.message);
@@ -117,6 +114,7 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 
 			<div>
 			<h1 className={styles.card}>Completed Books List</h1>
+			<ul>
 				{completdBooks.map(book => (
 					<li key={book.id}>
 						{book.title}
@@ -126,6 +124,7 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 
 					</li>
 				))}
+			</ul>
 			</div>	
 
 		</div>
