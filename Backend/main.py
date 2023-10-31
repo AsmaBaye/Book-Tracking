@@ -1,3 +1,4 @@
+import uvicorn
 import sqlite3
 from typing import List
 from fastapi import FastAPI, Depends, HTTPException
@@ -6,6 +7,7 @@ from database import get_database_connection
 from dataclasses import dataclass
 from typing import Optional
 # Handling CORS in FastAPI:
+
 from fastapi.middleware.cors import CORSMiddleware
 from enum import Enum
 
@@ -43,6 +45,12 @@ class NewBook:
     title: str
 
 
+@dataclass
+class BookUpdate:
+    title: Optional[str] = None
+    status: Optional[BookStatus] = None
+
+
 @app.get("/books", response_model=List[Book])
 def get_all_books(db: sqlite3.Connection = Depends(get_database_connection)):
     cursor = db.cursor()
@@ -55,6 +63,21 @@ def get_all_books(db: sqlite3.Connection = Depends(get_database_connection)):
                  for book in books]
 
     return book_list
+
+ # Retrieve a book by ID
+
+
+@app.get("/books/{book_id}", response_model=Book)
+def get_book(book_id: int, db: sqlite3.Connection = Depends(get_database_connection)):
+    cursor = db.cursor()
+    cursor.execute(
+        "SELECT id, title, status FROM tasks WHERE id = ?", (book_id,))
+    book = cursor.fetchone()
+    cursor.close()
+    if not book:
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    return Book(id=book[0], title=book[1], status=book[2])
 
 
 @app.post("/books", response_model=Book)
@@ -83,3 +106,30 @@ def delete_book(book_id: int, db: sqlite3.Connection = Depends(get_database_conn
     cursor.close()
 
     return f"Deleted book with id: {book_id}"
+
+# update a book tile or status or both
+
+
+@app.put("/books/{book_id}", response_model=Book)
+def update_book(book_id: int, updated_book: BookUpdate, db: sqlite3.Connection = Depends(get_database_connection)):
+    cursor = db.cursor()
+
+    # Check if the book exists
+    cursor.execute("SELECT id FROM tasks WHERE id = ?", (book_id,))
+    existing_book = cursor.fetchone()
+    if existing_book is None:
+        cursor.close()
+        raise HTTPException(status_code=404, detail="Book not found")
+
+    updated_book.title = updated_book.title or existing_book[1]
+    updated_book.status = updated_book.status or existing_book[2]
+
+    # Update the book's title and status
+    cursor.execute("UPDATE tasks SET title = ?, status = ? WHERE id = ?",
+                   (updated_book.title, updated_book.status, book_id))
+    db.commit()
+
+    cursor.close()
+    updated_book.id = book_id
+
+    return updated_book
