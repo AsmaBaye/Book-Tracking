@@ -3,6 +3,9 @@ import React from 'react';
 import {useEffect } from 'react';
 import { Book } from '../page';
 import styles from './page.module.css' 
+import { Button } from "@/components/ui/button"
+
+
 interface BookPageProps {
 	setBooks: (books:Book[]) => void
 	books: Book[]
@@ -88,9 +91,9 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 				{toReadBooks.map(book => (
 					<li key={book.id}>
 						{book.title} 
-						<button onClick={()=>{deleteBook(book.id)}} className={styles.button}>Delete</button>
-						<button onClick={()=>{updateBook({id: book.id, status:"reading"} as BookUpdate)}} className={styles.button}>Reading </button>
-						<button onClick={()=>{updateBook({id: book.id, status:"completed"} as BookUpdate)}} className={styles.button}>Completed </button>
+						<Button onClick={()=>{deleteBook(book.id)}} className={styles.button}>Delete</Button>
+						<Button onClick={()=>{updateBook({id: book.id, status:"reading"} as BookUpdate)}} className={styles.Button}>Reading </Button>
+						<Button onClick={()=>{updateBook({id: book.id, status:"completed"} as BookUpdate)}} className={styles.Button}>Completed </Button>
 					</li>
 				))}
 				
