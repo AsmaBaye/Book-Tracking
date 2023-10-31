@@ -115,7 +115,7 @@ def update_book(book_id: int, updated_book: BookUpdate, db: sqlite3.Connection =
     cursor = db.cursor()
 
     # Check if the book exists
-    cursor.execute("SELECT id FROM tasks WHERE id = ?", (book_id,))
+    cursor.execute("SELECT * FROM tasks WHERE id = ?", (book_id,))
     existing_book = cursor.fetchone()
     if existing_book is None:
         cursor.close()
