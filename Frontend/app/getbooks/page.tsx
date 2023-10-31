@@ -85,15 +85,17 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 	return (
 		<div className={styles.grid}>
 			
-			<div>
+			<div className='border-solid border-red-50'>
 			<h1 className={styles.card}>To Read Books List</h1>
 			<ul>
 				{toReadBooks.map(book => (
 					<li key={book.id}>
-						{book.title} 
-						<Button onClick={()=>{deleteBook(book.id)}} className={styles.button}>Delete</Button>
-						<Button onClick={()=>{updateBook({id: book.id, status:"reading"} as BookUpdate)}} className={styles.Button}>Reading </Button>
-						<Button onClick={()=>{updateBook({id: book.id, status:"completed"} as BookUpdate)}} className={styles.Button}>Completed </Button>
+						<h1 className='mt-2  flex items-center justify-center '>{book.title} </h1>
+						<div className='flex items-center justify-center'>
+						<Button onClick={()=>{deleteBook(book.id)}} className="mx-2">Delete</Button>
+						<Button onClick={()=>{updateBook({id: book.id, status:"reading"} as BookUpdate)}} className="my-2 mx-2">Reading </Button>
+						<Button onClick={()=>{updateBook({id: book.id, status:"completed"} as BookUpdate)}} className="my-2 mx-2 ">Completed </Button>
+						</div>
 					</li>
 				))}
 				
@@ -101,18 +103,22 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 			</div>
 
 			<div>
+			<div className='border-solid border-red-50'>
 			<h1 className={styles.card}>Reading Books List</h1>
 			<ul>
 				{readingBooks.map(book => (
 					<li key={book.id}>
-						{book.title} 
-						<button onClick={()=>{deleteBook(book.id)}} className={styles.button}>Delete</button>
-						<button onClick={()=>{updateBook({id: book.id, status:"to-read"} as BookUpdate)}} className={styles.button}>To-Reading </button>
-						<button onClick={()=>{updateBook({id: book.id, status:"completed"} as BookUpdate)}} className={styles.button}>Completed </button>
+						<h1 className='mt-2  flex items-center justify-center '>{book.title} </h1>
+						<div className='flex items-center justify-center'>
+						<Button onClick={()=>{deleteBook(book.id)}} className={styles.Button}>Delete</Button>
+						<Button onClick={()=>{updateBook({id: book.id, status:"to-read"} as BookUpdate)}} className="my-2 mx-2">To-Reading </Button>
+						<Button onClick={()=>{updateBook({id: book.id, status:"completed"} as BookUpdate)}} className="my-2 mx-2 ">Completed </Button>
+						</div>
 					</li>
+
 				))}
 			</ul>
-
+			</div>			
 			</div>
 
 			<div>
@@ -120,11 +126,12 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 			<ul>
 				{completdBooks.map(book => (
 					<li key={book.id}>
-						{book.title}
-						<button onClick={()=>{deleteBook(book.id)}}className={styles.button}>Delete</button>
-						<button onClick={()=>{updateBook({id: book.id, status:"to-read"} as BookUpdate)}} className={styles.button}>To-Read </button>
-						<button onClick={()=>{updateBook({id: book.id, status:"reading"} as BookUpdate)}} className={styles.button}>Reading </button>
-
+						<h1 className='mt-2  flex items-center justify-center '>{book.title} </h1>
+						<div className='flex items-center justify-center'>
+						<Button onClick={()=>{deleteBook(book.id)}}className={styles.Button}>Delete</Button>
+						<Button onClick={()=>{updateBook({id: book.id, status:"to-read"} as BookUpdate)}} className="my-2 mx-2">To-Read </Button>
+						<Button onClick={()=>{updateBook({id: book.id, status:"reading"} as BookUpdate)}} className="my-2 mx-2 ">Reading </Button>
+						</div>
 					</li>
 				))}
 			</ul>
