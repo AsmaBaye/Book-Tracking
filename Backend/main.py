@@ -1,4 +1,3 @@
-import uvicorn
 import sqlite3
 from typing import List
 from fastapi import FastAPI, Depends, HTTPException
@@ -7,7 +6,6 @@ from database import get_database_connection
 from dataclasses import dataclass
 from typing import Optional
 # Handling CORS in FastAPI:
-
 from fastapi.middleware.cors import CORSMiddleware
 from enum import Enum
 
