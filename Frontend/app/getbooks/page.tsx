@@ -110,7 +110,7 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 					<li key={book.id}>
 						<h1 className='mt-2  flex items-center justify-center '>{book.title} </h1>
 						<div className='flex items-center justify-center'>
-						<Button onClick={()=>{deleteBook(book.id)}} className={styles.Button}>Delete</Button>
+						<Button onClick={()=>{deleteBook(book.id)}}className="mx-2">Delete</Button>
 						<Button onClick={()=>{updateBook({id: book.id, status:"to-read"} as BookUpdate)}} className="my-2 mx-2">To-Reading </Button>
 						<Button onClick={()=>{updateBook({id: book.id, status:"completed"} as BookUpdate)}} className="my-2 mx-2 ">Completed </Button>
 						</div>
@@ -128,7 +128,7 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 					<li key={book.id}>
 						<h1 className='mt-2  flex items-center justify-center '>{book.title} </h1>
 						<div className='flex items-center justify-center'>
-						<Button onClick={()=>{deleteBook(book.id)}}className={styles.Button}>Delete</Button>
+						<Button onClick={()=>{deleteBook(book.id)}}className="mx-2">Delete</Button>
 						<Button onClick={()=>{updateBook({id: book.id, status:"to-read"} as BookUpdate)}} className="my-2 mx-2">To-Read </Button>
 						<Button onClick={()=>{updateBook({id: book.id, status:"reading"} as BookUpdate)}} className="my-2 mx-2 ">Reading </Button>
 						</div>
