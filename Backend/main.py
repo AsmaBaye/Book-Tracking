@@ -10,6 +10,7 @@ from typing import Optional
 
 from fastapi.middleware.cors import CORSMiddleware
 from enum import Enum
+from fastapi.testclient import TestClient
 
 
 class BookStatus(str, Enum):
@@ -19,7 +20,7 @@ class BookStatus(str, Enum):
 
 
 app = FastAPI()
-
+client = TestClient(app)
 # Add this line to your FastAPI app to enable CORS
 app.add_middleware(
     CORSMiddleware,
@@ -108,6 +109,15 @@ def delete_book(book_id: int, db: sqlite3.Connection = Depends(get_database_conn
     return f"Deleted book with id: {book_id}"
 
 # update a book tile or status or both
+
+
+def test_delete():
+    book_id = 3
+    response = client.delete(f"/books/{book_id}")
+    expected_message = f"Deleted book with id: {book_id}"
+    assert expected_message in response.text
+    assert response.status_code == 200
+    assert expected_message in response.text
 
 
 @app.put("/books/{book_id}", response_model=Book)
