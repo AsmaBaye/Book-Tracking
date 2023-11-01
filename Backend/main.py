@@ -54,7 +54,7 @@ class BookUpdate:
 @app.get("/books", response_model=List[Book])
 def get_all_books(db: sqlite3.Connection = Depends(get_database_connection)):
     cursor = db.cursor()
-    cursor.execute("SELECT id, title, status FROM tasks")
+    cursor.execute("SELECT id, title, status FROM BookTable")
     books = cursor.fetchall()
 
     cursor.close()
@@ -71,7 +71,7 @@ def get_all_books(db: sqlite3.Connection = Depends(get_database_connection)):
 def get_book(book_id: int, db: sqlite3.Connection = Depends(get_database_connection)):
     cursor = db.cursor()
     cursor.execute(
-        "SELECT id, title, status FROM tasks WHERE id = ?", (book_id,))
+        "SELECT id, title, status FROM BookTable WHERE id = ?", (book_id,))
     book = cursor.fetchone()
     cursor.close()
     if not book:
@@ -83,7 +83,7 @@ def get_book(book_id: int, db: sqlite3.Connection = Depends(get_database_connect
 @app.post("/books", response_model=Book)
 def create_book(book: NewBook, db: sqlite3.Connection = Depends(get_database_connection)):
     cursor = db.cursor()
-    cursor.execute("INSERT INTO tasks (title, status) VALUES (?, ?)",
+    cursor.execute("INSERT INTO BookTable (title, status) VALUES (?, ?)",
                    (book.title, BookStatus.to_read))
     db.commit()
     book_id = cursor.lastrowid
@@ -94,14 +94,14 @@ def create_book(book: NewBook, db: sqlite3.Connection = Depends(get_database_con
 @app.delete("/books/{book_id}", response_model=str)
 def delete_book(book_id: int, db: sqlite3.Connection = Depends(get_database_connection)):
     cursor = db.cursor()
-    cursor.execute("SELECT title FROM tasks WHERE id = ?", (book_id,))
+    cursor.execute("SELECT title FROM BookTable WHERE id = ?", (book_id,))
     book = cursor.fetchone()
 
     if book is None:
         cursor.close()
         raise HTTPException(status_code=404, detail="Book not found")
 
-    cursor.execute("DELETE FROM tasks WHERE id = ?", (book_id,))
+    cursor.execute("DELETE FROM BookTable WHERE id = ?", (book_id,))
     db.commit()
     cursor.close()
 
@@ -115,7 +115,7 @@ def update_book(book_id: int, updated_book: BookUpdate, db: sqlite3.Connection =
     cursor = db.cursor()
 
     # Check if the book exists
-    cursor.execute("SELECT * FROM tasks WHERE id = ?", (book_id,))
+    cursor.execute("SELECT * FROM BookTable WHERE id = ?", (book_id,))
     existing_book = cursor.fetchone()
     if existing_book is None:
         cursor.close()
@@ -125,11 +125,11 @@ def update_book(book_id: int, updated_book: BookUpdate, db: sqlite3.Connection =
     updated_book.status = updated_book.status or existing_book[2]
 
     # Update the book's title and status
-    cursor.execute("UPDATE tasks SET title = ?, status = ? WHERE id = ?",
+    cursor.execute("UPDATE BookTable SET title = ?, status = ? WHERE id = ?",
                    (updated_book.title, updated_book.status, book_id))
 
     db.commit()
-    cursor.execute("SELECT * FROM tasks WHERE id = ?", (book_id,))
+    cursor.execute("SELECT * FROM BookTable WHERE id = ?", (book_id,))
     book = cursor.fetchone()
     cursor.close()
 

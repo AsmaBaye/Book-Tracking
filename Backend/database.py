@@ -16,14 +16,14 @@ def create_table():
 
     # Check if the table already exists
     cursor.execute(
-        "SELECT name FROM sqlite_master WHERE type='table' AND name='tasks';")
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='BookTable';")
     table_exists = cursor.fetchone()
 
     if not table_exists:
         # Create the table if it doesn't exist
         cursor.execute('''
-            CREATE TABLE tasks (
-                id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            CREATE TABLE BookTable (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT ,
                 status TEXT 
             )
@@ -36,5 +36,5 @@ def create_table():
     connection.close()
 
 
-# Call the create_table function to create the 'tasks' table (if it doesn't already exist)
+# Call the create_table function to create the 'BookTable' table (if it doesn't already exist)
 create_table()
