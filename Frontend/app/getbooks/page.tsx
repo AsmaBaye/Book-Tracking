@@ -105,7 +105,7 @@ const BookPage =  ({setBooks, books}:BookPageProps) => {
 
 			<div>
 			<div className='border-solid border-red-50'>
-			<h1 className=" font-extrabold lg:text-5 flex justify-center items-center xl text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Reading Books List</h1>
+			<h1 className=" font-extrabold lg:text-5 flex justify-center items-center xl text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">in-progress Books List</h1>
 			<ul>
 				{readingBooks.map(book => (
 					<li key={book.id}>
