@@ -13,7 +13,7 @@ export default function Home() {
   const [books, setBooks] = useState<Book[]>([]);
   return (
     <div>
-       <h1>Add Book</h1>
+      
        <AddBook setBooks={setBooks} books={books}/>
        <BookPage setBooks={setBooks} books={books}/>
      </div>
