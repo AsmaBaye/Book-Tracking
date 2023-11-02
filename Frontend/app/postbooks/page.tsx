@@ -48,7 +48,7 @@ const AddBook = ({ setBooks, books }: AddBookProps) => {
             addNewBook(bookTitle);
           }}
         >
-          Add{" "}
+          Add
         </Button>
       </div>
     </>
